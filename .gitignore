@@ -1,3 +1,10 @@
 *.class
 *.pyc
 *.pyo
+concat.sh
+Copyright.txt
+concat.py
+JS_Comment_Removal.exe
+Main_Insert.exe
+.project
+.pydevproject

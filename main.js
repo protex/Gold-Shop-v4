@@ -23,7 +23,7 @@ vitals.shop = (function(){
         /*
          * Property: plugins
          * 
-         * Description: Array that holds all plugins registerd with the function for initiation
+         * Description: Array that holds all plugins registerd with the shop for initiation
          */
         
         plugins: [],

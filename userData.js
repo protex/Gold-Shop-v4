@@ -14,8 +14,9 @@ var userData = {
     
     settings: {
         name: 'userData',
-        version: '0.0.1',
+        version: '0.0.5',
         registered: false,  
+        versionDescription: 'Wrote the update function'
     },
     
     /*
@@ -115,7 +116,7 @@ var userData = {
                 this.hasBeenChanged = false;
                 
                 this.update = function () {
-                      
+                      pb.data.key('gold_shop_user').set({item_id: this.user, value: this });
                 };
                 
                 /*
@@ -203,6 +204,7 @@ var userData = {
                     bought: function ( data ) {
                         if ( (typeof data).toUpperCase() == "OBJECT" ) {
                             self.data.bi = data;
+                            self.hasBeenChanged = true;
                         }
                     },
                     
@@ -217,6 +219,7 @@ var userData = {
                     received: function ( data ) {
                         if ( (typeof data).toUpperCase() == "OBJECT" ) {
                             self.data.ri = data;
+                            self.hasBeenChanged = true;
                         }
                     },
                     
@@ -231,6 +234,7 @@ var userData = {
                     outbox: function ( array ) { 
                         if ( (typeof array).toUpperCase() == "ARRAY" ) {
                             self.data.io = array;
+                            this.hasBeenChanged = true;
                         }
                     },
                     
@@ -245,6 +249,7 @@ var userData = {
                     inbox: function ( array) {
                         if ( (typeof array).toUpperCase() == "ARRAY" ) {
                             self.data.ii = array;
+                            this.hasBeenChanged = true;
                         }   
                     },
                     
@@ -257,6 +262,7 @@ var userData = {
                     rejected: function ( array ) {
                         if ( (typeof array).toUpperCase() == "ARRAY" ) {
                             self.data.ri = array;
+                            this.hasBeenChanged = true;
                         }   
                     }
                     
@@ -295,6 +301,7 @@ var userData = {
                                 }
                                 self.data.bi = owned;
                             }
+                            this.hasBeenChanged = true;
                             return true;
                         } else {
                             return false;
@@ -326,6 +333,7 @@ var userData = {
                                 }
                                 self.data.ri = owned;
                             }
+                            this.hasBeenChanged = true;
                             return true;
                         } else {
                             return false;
@@ -358,6 +366,7 @@ var userData = {
                         obj.giverID = giverID;
                         obj.anonymous = anonymous;
                         self.data.ii.push(obj);
+                        this.hasBeenChanged = true;
                         return true;
                     }
                     else 
@@ -401,6 +410,7 @@ var userData = {
                             }
                             if ( userBoughtAmount > 0 )
                                 self.data.bi[id] = userBoughtAmount;
+                            this.hasBeenChanged = true;
                             return true;                        
                         } else {
                             return false;                        
@@ -436,7 +446,8 @@ var userData = {
                             }
                             if ( userReceivedAmount > 0 )
                                 self.data.ri[id] = userReceivedAmount;
-                            return true;                        
+                            return true;
+                            this.hasBeenChanged = true;                        
                         } else {
                             return false;                        
                         }                    
