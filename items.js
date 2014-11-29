@@ -34,7 +34,7 @@ var items = {
      * Description: Initiates - currently just returns nothing
      */
     
-    init: function () {return},
+    init: function () {return;},
     
     /*
      * Object Constructor: itemList
