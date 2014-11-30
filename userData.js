@@ -74,7 +74,7 @@ var userData = {
             
         var plugin = pb.plugin.get('gold_shop_v4'),
             sKey = proboards.plugin.keys.data['gold_shop_v4'],
-            usersOnPage = Object.keys(proboards.plugin.keys.permissions(['gold_shop_v4'])),          
+            usersOnPage = Object.keys(proboards.plugin.keys.permissions['gold_shop_v4']),          
             self = this;
             
             if ( $.inArray( user.toString(), usersOnPage ) > -1 ) {
