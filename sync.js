@@ -104,6 +104,24 @@ var sync = {
 			return true;
 		}
 		return false;
+	},
+	
+	/*
+	 * Function: buttonSync
+	 * 
+	 * Description: Attaches a sync check to all shop buttons that might change data
+	 * 
+	 * Parameters: *none*
+	 * 
+	 * Returns: *bool*
+	 */
+	
+	buttonSync: function () {
+		$('.shop-data-button').each(function() {
+			$(this).on('click', function() {
+				
+			});
+		});
 	}
 	
 };
