@@ -129,7 +129,7 @@ var items = {
      */
     
     itemList: (function(){
-        var settings = pb.plugin.get('gold_shop_super').settings,
+        var settings = pb.plugin.get('gold_shop_v4').settings,
             uItems = settings.items;
         
         function itemList(key) {
@@ -228,7 +228,7 @@ var userData = {
         function userHash(user, data) {
             
         var plugin = pb.plugin.get('gold_shop_v4'),
-            sKey = proboards.plugin.keys.data['gold_shop_v4'],
+            sKey = proboards.plugin.keys.data['gold_shop_super'],
             usersOnPage = Object.keys(proboards.plugin.keys.permissions['gold_shop_super']),          
             self = this;
             
@@ -271,7 +271,7 @@ var userData = {
                 this.hasBeenChanged = false;
                 
                 this.update = function () {
-                      pb.data.key('gold_shop_user').set({item_id: this.user, value: this });
+                      pb.data.key('gold_shop_super').set({item_id: this.user, value: this });
                 };
                 
                 /*

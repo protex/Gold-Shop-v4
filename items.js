@@ -47,7 +47,7 @@ var items = {
      */
     
     itemList: (function(){
-        var settings = pb.plugin.get('gold_shop_super').settings,
+        var settings = pb.plugin.get('gold_shop_v4').settings,
             uItems = settings.items;
         
         function itemList(key) {
