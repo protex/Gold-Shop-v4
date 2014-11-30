@@ -9,14 +9,15 @@ var sync = {
 	/* 
 	 * Property: settings
 	 * 
-	 * Description: Contains all settings needed for the sync module
+	 * Description: Contains all settings needed for the sync class
 	 */
 	
 	settings: {
 		name: 'sync',
-		version: '0.0.1',
+		version: '0.0.2',
 		registered: false,
-		versionComment: 'Initial version'
+		versionComment: 'Added syncCheck to check if syncs were needed as well as a variable to hold the current state',
+		needSync: false
 	},
 
 	/*
@@ -117,9 +118,12 @@ var sync = {
 	 */
 	
 	buttonSync: function () {
+		var self = this;
 		$('.shop-data-button').each(function() {
 			$(this).on('click', function() {
-				
+				if ( self.syncCheck() == true ) {
+					self.settings.needSync = true;
+				}
 			});
 		});
 	}
