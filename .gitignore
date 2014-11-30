@@ -8,3 +8,5 @@ JS_Comment_Removal.exe
 Main_Insert.exe
 .project
 .pydevproject
+.gitignore
+.gitignore~
