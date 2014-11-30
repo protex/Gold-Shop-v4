@@ -1,0 +1,8 @@
+/*******************************************
+* Copyright (c) Peter Maggio               *
+* (protex.boards.net)                      *
+* 2014 all rights reserved                 *
+* Not to be redistributed                  *
+* http://support.proboards.com/user/173855 *
+********************************************/
+
