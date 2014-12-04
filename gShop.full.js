@@ -206,9 +206,10 @@ var userData = {
     
     createUserDataHash: function () {
         var key = proboards.plugin.keys.data['gold_shop_super'];
-            userList = Object.keys(proboards.plugin.keys.permissions.gold_shop_super);
+            userList = Object.keys(proboards.plugin.keys.permissions['gold_shop_super']);
             
         for ( var i in userList ) {
+        	// Check if key has data already
             var userData = ( key.hasOwnProperty(i) == true )? key[i]: null;
             vitals.shop.userDataHash[userList[i]] = new this.userHash(userList[i]);
         }       
@@ -234,7 +235,7 @@ var userData = {
             
             if ( $.inArray( user.toString(), usersOnPage ) > -1 ) {
                 
-                this.data = ( (typeof data).toUpperCase() == "OBJECT" )? data : {
+                this.data = ( (typeof data).toUpperCase() == "ARRAY" && data.length > 0 )? data[0] : {
                     
                     /*
                      * Bought Items
@@ -264,14 +265,35 @@ var userData = {
                      * Items Rejected
                      */
                     
-                    ir: []
+                    ir: [],
                     
-                };
+                    /*
+                     * Pending Changes
+                     */
+                    
+                    pc: []
+                    
+                };            
                 
                 this.hasBeenChanged = false;
                 
+                /*
+                 * Push all pending changes into main object
+                 */
+                
+                if ( data.length > 1 ) {
+                	for (var i in data ) {
+                		if ( i == 0 ) 
+                			continue;
+                		else {
+                			this.data['pc'].push(data[i]);
+                		}	                		
+                	}
+                	this.hasBeenChanged = true;
+                }                
+                
                 this.update = function () {
-                      pb.data.key('gold_shop_super').set({item_id: this.user, value: this });
+                      pb.data.key('gold_shop_super').set({item_id: this.user, value: this.data });
                 };
                 
                 /*

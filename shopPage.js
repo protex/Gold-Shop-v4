@@ -13,10 +13,24 @@ var shopPage = {
 	 */
 	
 	settings: {
+		
+		/*
+		 * Class info
+		 */
 		name: 'shopPage',
 		version: '0.0.1',
 		registered: false,
-		versionDescription: 'Initial version'
+		versionDescription: 'Initial version',
+		
+		/*
+		 * Class variables
+		 */
+		
+		shop_name: 'Gold Shop',
+		shop_welcome_message: 'Welcome to the shop',
+		shop_logo: '',
+		shop_categories: {}
+		
 	},
 	
 	/*
