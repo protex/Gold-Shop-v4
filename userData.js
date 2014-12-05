@@ -78,6 +78,8 @@ var userData = {
             usersOnPage = Object.keys(proboards.plugin.keys.permissions['gold_shop_super']),          
             self = this;
             
+            console.log(this);
+            
             if ( $.inArray( user.toString(), usersOnPage ) > -1 ) {
                 
                 this.data = ( (typeof data).toUpperCase() == "ARRAY" && data.length > 0 )? data[0] : {
