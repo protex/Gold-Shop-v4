@@ -193,7 +193,7 @@ var userData = {
      */
     
     init: function () {
-        self.createUserDataHash();
+        this.createUserDataHash();
     },
     
     /*
@@ -211,7 +211,7 @@ var userData = {
         for ( var i in userList ) {
         	// Check if key has data already
             var userData = ( key.hasOwnProperty(i) == true )? key[i]: null;
-            vitals.shop.userDataHash[userList[i]] = new self.userHash(userList[i]);
+            vitals.shop.userDataHash[userList[i]] = new this.userHash(userList[i]);
         }       
     },
     
@@ -281,16 +281,18 @@ var userData = {
                  * Push all pending changes into main object
                  */
                 
-                if ( data.length > 1 ) {
-                	for (var i in data ) {
-                		if ( i == 0 ) 
-                			continue;
-                		else {
-                			self.data['pc'].push(data[i]);
-                		}	                		
-                	}
-                	self.hasBeenChanged = true;
-                }                
+                if ( typeof data != "undefined" ) {
+	                if ( data.length > 1 ) {
+	                	for (var i in data ) {
+	                		if ( i == 0 ) 
+	                			continue;
+	                		else {
+	                			self.data['pc'].push(data[i]);
+	                		}	                		
+	                	}
+	                	self.hasBeenChanged = true;
+	                } 
+                }               
                 
                 self.update = function () {
                       pb.data.key('gold_shop_super').set({item_id: self.user, value: self.data });
