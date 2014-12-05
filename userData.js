@@ -479,7 +479,7 @@ var userData = {
                       
                 };
                 
-                return this;
+                return userHash;
             
             }
             
