@@ -27,7 +27,7 @@ var userData = {
      * Description: Registers module with Gold Shop
      */
     
-    register: function () { vitals.shop.register(this.settings.name, this); },
+    register: function () { vitals.shop.register(self.settings.name, this); },
     
     /*
      * Function: init
@@ -38,7 +38,7 @@ var userData = {
      */
     
     init: function () {
-        this.createUserDataHash();
+        self.createUserDataHash();
     },
     
     /*
@@ -56,7 +56,7 @@ var userData = {
         for ( var i in userList ) {
         	// Check if key has data already
             var userData = ( key.hasOwnProperty(i) == true )? key[i]: null;
-            vitals.shop.userDataHash[userList[i]] = new this.userHash(userList[i]);
+            vitals.shop.userDataHash[userList[i]] = new self.userHash(userList[i]);
         }       
     },
     
@@ -76,13 +76,11 @@ var userData = {
         var plugin = pb.plugin.get('gold_shop_v4'),
             sKey = proboards.plugin.keys.data['gold_shop_super'],
             usersOnPage = Object.keys(proboards.plugin.keys.permissions['gold_shop_super']),          
-            self = this;
-            
-            console.log(this);
+            self = userHash;
             
             if ( $.inArray( user.toString(), usersOnPage ) > -1 ) {
                 
-                this.data = ( (typeof data).toUpperCase() == "ARRAY" && data.length > 0 )? data[0] : {
+                self.data = ( (typeof data).toUpperCase() == "ARRAY" && data.length > 0 )? data[0] : {
                     
                     /*
                      * Bought Items
@@ -122,7 +120,7 @@ var userData = {
                     
                 };            
                 
-                this.hasBeenChanged = false;
+                self.hasBeenChanged = false;
                 
                 /*
                  * Push all pending changes into main object
@@ -133,14 +131,14 @@ var userData = {
                 		if ( i == 0 ) 
                 			continue;
                 		else {
-                			this.data['pc'].push(data[i]);
+                			self.data['pc'].push(data[i]);
                 		}	                		
                 	}
-                	this.hasBeenChanged = true;
+                	self.hasBeenChanged = true;
                 }                
                 
-                this.update = function () {
-                      pb.data.key('gold_shop_super').set({item_id: this.user, value: this.data });
+                self.update = function () {
+                      pb.data.key('gold_shop_super').set({item_id: self.user, value: self.data });
                 };
                 
                 /*
@@ -149,7 +147,7 @@ var userData = {
                  * Description: ID of the user that the hash belongs too 
                  */
                 
-                this.user = user;
+                self.user = user;
                 
                 /*
                  * Property: get
@@ -157,7 +155,7 @@ var userData = {
                  * Description: Object containing methods to return data from hash
                  */
                 
-                this.get = {
+                self.get = {
                     
                     /*
                      * Function: bought
@@ -215,7 +213,7 @@ var userData = {
                  * Description: Contains methods to set data in hash
                  */
                 
-                this.set = {
+                self.set = {
                     
                     /*
                      * Function: bought
@@ -258,7 +256,7 @@ var userData = {
                     outbox: function ( array ) { 
                         if ( (typeof array).toUpperCase() == "ARRAY" ) {
                             self.data.io = array;
-                            this.hasBeenChanged = true;
+                            self.hasBeenChanged = true;
                         }
                     },
                     
@@ -273,7 +271,7 @@ var userData = {
                     inbox: function ( array) {
                         if ( (typeof array).toUpperCase() == "ARRAY" ) {
                             self.data.ii = array;
-                            this.hasBeenChanged = true;
+                            self.hasBeenChanged = true;
                         }   
                     },
                     
@@ -286,7 +284,7 @@ var userData = {
                     rejected: function ( array ) {
                         if ( (typeof array).toUpperCase() == "ARRAY" ) {
                             self.data.ri = array;
-                            this.hasBeenChanged = true;
+                            self.hasBeenChanged = true;
                         }   
                     }
                     
@@ -298,7 +296,7 @@ var userData = {
                  * Description: Contains methods to add items to the bought and received data
                  */
                 
-                this.add = {
+                self.add = {
                     
                     /*
                      * Function: bought
@@ -325,7 +323,7 @@ var userData = {
                                 }
                                 self.data.bi = owned;
                             }
-                            this.hasBeenChanged = true;
+                            self.hasBeenChanged = true;
                             return true;
                         } else {
                             return false;
@@ -357,7 +355,7 @@ var userData = {
                                 }
                                 self.data.ri = owned;
                             }
-                            this.hasBeenChanged = true;
+                            self.hasBeenChanged = true;
                             return true;
                         } else {
                             return false;
@@ -376,7 +374,7 @@ var userData = {
                  * Description: Adds a given item to a users inbox
                  */
                 
-                this.receive = function (data) {
+                self.receive = function (data) {
                     if ( data.hasOwnProperty('item')
                         && data.hasOwnProperty('amount')
                         && data.hasOwnProperty('giver') 
@@ -390,7 +388,7 @@ var userData = {
                         obj.giverID = giverID;
                         obj.anonymous = anonymous;
                         self.data.ii.push(obj);
-                        this.hasBeenChanged = true;
+                        self.hasBeenChanged = true;
                         return true;
                     }
                     else 
@@ -403,7 +401,7 @@ var userData = {
                  * Description: Contains methods to subtract items from user hash
                  */
                 
-                this.subtract = {
+                self.subtract = {
                     
                     /*
                      * Function: bought
@@ -434,7 +432,7 @@ var userData = {
                             }
                             if ( userBoughtAmount > 0 )
                                 self.data.bi[id] = userBoughtAmount;
-                            this.hasBeenChanged = true;
+                            self.hasBeenChanged = true;
                             return true;                        
                         } else {
                             return false;                        
@@ -471,7 +469,7 @@ var userData = {
                             if ( userReceivedAmount > 0 )
                                 self.data.ri[id] = userReceivedAmount;
                             return true;
-                            this.hasBeenChanged = true;                        
+                            self.hasBeenChanged = true;                        
                         } else {
                             return false;                        
                         }                    
