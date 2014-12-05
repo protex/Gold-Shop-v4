@@ -182,7 +182,7 @@ var userData = {
      * Description: Registers module with Gold Shop
      */
     
-    register: function () { vitals.shop.register(self.settings.name, this); },
+    register: function () { vitals.shop.register(this.settings.name, this); },
     
     /*
      * Function: init
