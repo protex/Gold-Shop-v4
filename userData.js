@@ -92,25 +92,31 @@ var userData = {
                      * received Items
                      */
                     
-                    ri: {},
+                    ri: {},              
                     
                     /*
-                     * Item Outbox
+                     * Gift Inbox
                      */
                     
-                    io: [],
+                    gi: [],
                     
                     /*
-                     * Item Inbox
+                     * Trade Inbox
                      */
                     
-                    ii: [],
+                    ti: [],
                     
                     /*
-                     * Items Rejected
+                     * Rejected Gifts
                      */
                     
-                    ir: [],
+                    rg: [],
+                    
+                    /*
+                     * Rejected Trades
+                     */               
+                     
+                     rt: [],                  
                     
                     /*
                      * Pending Changes
@@ -140,7 +146,7 @@ var userData = {
                 }               
                 
                 self.update = function () {
-                      pb.data.key('gold_shop_super').set({item_id: self.user, value: self.data });
+                      pb.data.key('gold_shop_super').set({item_id: self.user, value: [self.data] });
                 };
                 
                 /*
@@ -204,7 +210,7 @@ var userData = {
                      */
                     
                     inbox: function () {
-                        return self.data.ii;
+                        return self.data.gi;
                     }
                     
                 };
@@ -248,21 +254,6 @@ var userData = {
                     },
                     
                     /*
-                     * Function: outbox
-                     * 
-                     * Parameters: *array* - array - Array to be set as the outbox array
-                     * 
-                     * Returns: *none*
-                     */                
-                    
-                    outbox: function ( array ) { 
-                        if ( (typeof array).toUpperCase() == "ARRAY" ) {
-                            self.data.io = array;
-                            self.hasBeenChanged = true;
-                        }
-                    },
-                    
-                    /*
                      * Function: inbox
                      * 
                      * Parameters: *array* - array - Array to be set as the inbox array
@@ -272,23 +263,36 @@ var userData = {
                     
                     inbox: function ( array) {
                         if ( (typeof array).toUpperCase() == "ARRAY" ) {
-                            self.data.ii = array;
+                            self.data.gi = array;
                             self.hasBeenChanged = true;
                         }   
                     },
                     
                     /*
-                     * Function: rejected
+                     * Function: rejectedGifts
                      * 
                      * Parameters *array* - array - Array to be set as the rejected array
                      */
                     
-                    rejected: function ( array ) {
+                    rejectedGifts: function ( array ) {
                         if ( (typeof array).toUpperCase() == "ARRAY" ) {
-                            self.data.ri = array;
+                            self.data.rg = array;
                             self.hasBeenChanged = true;
                         }   
-                    }
+                    },
+                    
+                    /*
+                     * Function: rejectedTrades
+                     * 
+                     * Parameters *array* - array - Array to be set as the rejected array
+                     */
+                    
+                    rejectedTrades: function ( array ) {
+                        if ( (typeof array).toUpperCase() == "ARRAY" ) {
+                            self.data.rt = array;
+                            self.hasBeenChanged = true;
+                        }   
+                    }                    
                     
                 };
                 
@@ -318,12 +322,12 @@ var userData = {
                                 for( var i = 0, owned = parsInt(userItems[id]); i < amount; i++ ) {
                                     owned++;
                                 }
-                                self.data.bi = owned;
+                                self.data.bi[id] = owned;
                             } else {
                                 for ( var i = 0, owned = 0; i < amount; i++ ) {
                                     owned++;    
                                 }
-                                self.data.bi = owned;
+                                self.data.bi[id] = owned;
                             }
                             self.hasBeenChanged = true;
                             return true;
@@ -347,15 +351,15 @@ var userData = {
                         itemLookup = new vitals.shop.items.itemList('id');
                         if ( isNaN( amount ) == false && itemLookup.hasOwnProperty(id) ) {
                             if ( userItems.hasOwnProperty (id) == true) {
-                                for ( var i = 0, received = parseInt(userItems[id]); i < amount; i++ ) {
-                                    received++;
+                                for ( var i = 0, owned = parseInt(userItems[id]); i < amount; i++ ) {
+                                    owned++;
                                 }
-                                self.data.ri = owned;
+                                self.data.ri[id] = owned;
                             } else {
                                 for ( var i = 0, owned = 0; i < amount; i++ ){
                                     owned++;
                                 }
-                                self.data.ri = owned;
+                                self.data.ri[id] = owned;
                             }
                             self.hasBeenChanged = true;
                             return true;
@@ -364,38 +368,180 @@ var userData = {
                         }
                     }
                     
-                };
+                };            
                 
                 /*
-                 * Function: receive
+                 * Property: pChanges
                  * 
-                 * Returns: *bool*
+                 * Description: Contains methods for working with pending changes
                  * 
-                 * Parameters: *object* - data - An object that contains all data for an item to be given
-                 * 
-                 * Description: Adds a given item to a users inbox
                  */
                 
-                self.receive = function (data) {
-                    if ( data.hasOwnProperty('item')
-                        && data.hasOwnProperty('amount')
-                        && data.hasOwnProperty('giver') 
-                        && data.hasOwnProperty('giverID')
-                        && data.hasOwnProperty('anonymous')
-                    ) {
-                        var obj = {};
-                        obj.item = item;
-                        obj.amount = amount;
-                        obj.giver = giver;
-                        obj.giverID = giverID;
-                        obj.anonymous = anonymous;
-                        self.data.ii.push(obj);
-                        self.hasBeenChanged = true;
-                        return true;
-                    }
-                    else 
-                        return false;
-                };
+                self.pChanges = {
+                	
+					/*
+					 * Function: changeTable
+					 * 
+					 * Description: Creates a table that categorizes all pending changes
+					 * 
+					 * Parameters: *none*
+					 * 
+					 * Returns: *object* - The lookup table
+					 */
+					
+					changeTable: function () {
+						
+						var table = {
+								
+								/*
+								 * Give Messages
+								 */
+								
+								gm:[],
+								
+								/*
+								 * Trade Requests
+								 */
+								
+								tr: [],
+								
+								/*
+								 * Rejected Gifts
+								 */				
+								 
+								rg: [],
+								 
+								 /*
+								  * Rejected Trades
+								  */				
+								  
+								rt: []
+								
+						}, data = self.data.pc;
+						
+						if ( data.length > 0 ) {
+						
+							for ( var i in data ) {
+								switch ( data[i].type ) {
+									case "give_message":
+										table.gm.push(data[i]);
+									case "trade_request":
+										table.tr.push(data[i]);
+								}
+							}
+						
+						}
+						
+						return table;
+						
+					},
+					
+					/*
+					 * Property: saveChanges
+					 * 
+					 * Description: Contains methods to save changes that have been pushed to the user
+					 */
+					
+					saveChanges: {
+						
+						/*
+						 * Function: gm
+						 * 
+						 * Description: Saves all given messages
+						 * 
+						 * Parameters: *none*
+						 * 
+						 * Returns: *bool*
+						 */
+						
+						gm: function () {
+							var changes = self.pChanges.changeTable().gm;
+							
+							if ( changes.length > 0 ) {
+								
+								for ( var i in changes ) {
+									self.data.gi.push(changes[i]);
+								}
+								
+								self.hasBeenChanges = true;
+								return true;
+							}
+							return false;
+						},
+						
+						/*
+						 * Function: tm
+						 * 
+						 * Description: Saves all trade propositions
+						 * 
+						 * Parameters: *none*
+						 * 
+						 * Returns: *bool*
+						 */
+						
+						tm: function () {
+							var changes = self.pChanges.changeTable().tm;
+							
+							if ( changes.length > 0 ) {
+								
+								for ( var i in changes ) {
+									self.data.ti.push(changes[i]);
+								}
+								
+								self.hasBeenChanged = true;
+								return true;
+							}
+							return false;
+						},
+						
+						/*
+						 * Function: rg
+						 * 
+						 * Description: Saves all rejected gift messages
+						 * 
+						 * Parameters: *none*
+						 * 
+						 * Returns: *bool*
+						 */
+						
+						rg: function () {							
+							var changes = self.pChanges.changeTable().rg;
+							
+							if ( changes.length > 0 ) {
+								for ( var i in changes ) {
+									self.data.rg.push(changes[i]);									
+								}
+								self.hasBeenChanged = true;
+								return true;
+							}
+							return false;
+						},
+						
+						/*
+						 * Function: rt
+						 * 
+						 * Description: Saves all rejected trade messages
+						 * 
+						 * Parameters: *none*
+						 * 
+						 * Returns: *bool*
+						 */
+						
+						rt: function () {
+							var changes = self.pChanges.changeTable().rt;
+							
+							if( changes.length > 0 ) {
+								for ( var i in changes ) {
+									self.data.rt.push(changes[i]);
+								}
+								self.hasBeenChanged = true;
+								return true;
+							}
+						}
+						
+					}
+                	
+                },
                 
                 /*
                  * Property: subtract
