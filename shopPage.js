@@ -18,9 +18,9 @@ var shopPage = {
 		 * Class info
 		 */
 		name: 'shopPage',
-		version: '0.0.1',
+		version: '0.0.2',
 		registered: false,
-		versionDescription: 'Initial version',
+		versionDescription: 'Added setup',
 		
 		/*
 		 * Class variables
@@ -52,9 +52,33 @@ var shopPage = {
 	 * 
 	 * Parameters: *none*
 	 * 
-	 * Returns: n/a
+	 * Returns: *bool*
 	 */
 	
-	init: function(){return;}
+	init: function(){
+		
+		this.setup();
+		
+	},
+	
+	/*
+	 * Function: setup
+	 * 
+	 * Description: Sets up shop page variables
+	 * 
+	 * Paramters: *none*
+	 * 
+	 * Returns: *bool*
+	 */
+	
+	setup: function () {
+		
+		var plugin = pb.plugin.get('gold_shop_v4'),
+			settings = plutin.settings;
+		
+		this.settings.shop_name = (settings.shop_name != undefined && settings.shop_name != '')? settings.shop_name: 'Gold Shop';
+		this.settings.shop_welcome_message = (settings.welcome_message != undefined && settings.shop_message != '')? settings.welcome_message: 'Welcome to the shop!';
+		
+	}
 	
 };
