@@ -29,7 +29,10 @@ var shopPage = {
 		shop_name: 'Gold Shop',
 		shop_welcome_message: 'Welcome to the shop',
 		shop_logo: '',
-		shop_categories: {}
+		shop_categories: {},
+		returns_enabled: false,
+		giving_enabled: false,
+		default_view: 'squares'
 		
 	},
 	
@@ -78,6 +81,11 @@ var shopPage = {
 		
 		this.settings.shop_name = (settings.shop_name != undefined && settings.shop_name != '')? settings.shop_name: 'Gold Shop';
 		this.settings.shop_welcome_message = (settings.welcome_message != undefined && settings.shop_message != '')? settings.welcome_message: 'Welcome to the shop!';
+		// TODO add shop image replacement option
+		this.settings.shop_image = this.settings.shop_image;
+		this.settings.returns_enabled = (settings.returns == 'true' )? true: false;
+		this.settings.giving_enabled = (settings.giving == 'true' )? true: false;
+		this.settings.default_view = settings.default_view;
 		
 	}
 	
