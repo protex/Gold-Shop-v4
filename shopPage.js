@@ -113,7 +113,8 @@ var shopPage = {
 			
 			var wrapper = '',
 				welcome = '',
-				options = '';
+				options = '',
+				index = '';
 				wrapper += '<div id="the-shop"></div>';
 				welcome = this.settings.shop_name;
 				
@@ -121,7 +122,7 @@ var shopPage = {
 				options += '<tbody>';
 				options += '<tr>';
 				options += '<td>';
-				options += '<div class="rounded_edges shop">';
+				options += '<div class="rounded_edges shop" style="width: 225px">';
 				options += '<img src="' + this.settings.plugin_images.shop + '" />';
 				options += '</div>';
 				options += '</td>';
@@ -142,12 +143,39 @@ var shopPage = {
 				options += '</tbody>';
 				options += '</table>';
 				
+				index += '<table class="shop index-table">';
+				index += '<thead>';
+				index += '<tr>';
+				index += '<td>';
+				index += '<div class="shop sort-buttons">';
+				index += '<span>Sort Buttons:&nbsp;</span>';
+				index += '</div>';
+				index += '</td>';
+				index += '<th class="shop arrange-input">';
+				index += '<select><option value="1">Alphabetical</option></select>';
+				index += '</th>';
+				index += '</tr>';
+				index += '</thead>';
+				index += '<tbody class="shop shelf">';
+				index += '<tr>';
+				index += '<td>';
+				index += 'items';
+				index += '</td>';
+				index += '</tr>';
+				index += '</tbody>';
+				index += '</table>';
+				
 			yootil.create.page(/\/\?shop\&location\=index/, this.settings.shop_name);				
 				
 			if ( this.settings.auto_append_shop === true)
 				$('#content').append(wrapper);				
 			
-			yootil.create.container(this.settings.shop_name + 'Options', options).appendTo('#the-shop');
+			yootil.create.container(this.settings.shop_name + ' Options', options).appendTo('#the-shop');
+			yootil.create.container(this.settings.shop_name + ' Index', index).appendTo('#the-shop');
+			
+			for (var i in this.settings.plugin_settings.categories ) {
+				$('.shop.sort-button').append('<a href="javascript:void(0)" class="button" type="button">' + this.settings.plugin_settings.categories[i].category + '</a>');
+			}
 			
 			
 		}
