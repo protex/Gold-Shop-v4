@@ -21,6 +21,8 @@ var shopPage = {
 		version: '0.0.2',
 		registered: false,
 		versionDescription: 'Added setup',
+		plugin_settings: pb.plugin.get('gold_shop_v4').settings,
+		plugin_images: pb.plugin.get('gold_shop_v4').images,
 		
 		/*
 		 * Class variables
@@ -29,7 +31,11 @@ var shopPage = {
 		shop_name: 'Gold Shop',
 		shop_welcome_message: 'Welcome to the shop',
 		shop_logo: '',
-		shop_categories: {}
+		shop_categories: {},
+		returns_enabled: false,
+		giving_enabled: false,
+		default_view: 'squares',
+		auto_append_shop: true
 		
 	},
 	
@@ -43,7 +49,7 @@ var shopPage = {
 	 * Returns: *bool*
 	 */
 	
-	register: function () {vitals.shop.main.register('shopPage', this);},
+	register: function () {vitals.shop.main.register('shopPage', this);return true;},
 	
 	/*
 	 * Function: init
@@ -58,6 +64,8 @@ var shopPage = {
 	init: function(){
 		
 		this.setup();
+		
+		return true;
 		
 	},
 	
@@ -78,6 +86,99 @@ var shopPage = {
 		
 		this.settings.shop_name = (settings.shop_name != undefined && settings.shop_name != '')? settings.shop_name: 'Gold Shop';
 		this.settings.shop_welcome_message = (settings.welcome_message != undefined && settings.shop_message != '')? settings.welcome_message: 'Welcome to the shop!';
+		// TODO add shop image replacement option
+		this.settings.shop_image = this.settings.shop_image;
+		this.settings.returns_enabled = (settings.returns == 'true' )? true: false;
+		this.settings.giving_enabled = (settings.giving == 'true' )? true: false;
+		this.settings.default_view = (settings.default_view == 'true');
+		this.settings.auto_append_shop = (settings.auto_append_shop == 'true');
+		
+		return true;
+		
+	},
+	
+	/*
+	 * Function: createShop
+	 * 
+	 * Description: Creates the basics of the shop
+	 * 
+	 * Parameters: *none*
+	 * 
+	 * Returns: *bool*
+	 */
+	
+	createShop: function () {
+		
+		if ( location.href.match(/\/\?shop\&location\=index/) ) {
+			
+			var wrapper = '',
+				welcome = '',
+				options = '',
+				index = '';
+				wrapper += '<div id="the-shop"></div>';
+				welcome = this.settings.shop_name;
+				
+				options += '<table class="shop options-table">';
+				options += '<tbody>';
+				options += '<tr>';
+				options += '<td>';
+				options += '<div class="rounded_edges shop" style="width: 225px">';
+				options += '<img src="' + this.settings.plugin_images.shop + '" />';
+				options += '</div>';
+				options += '</td>';
+				options += '<td>';
+				options += '<table class="shop view-switch">';
+				options += '<tbody>';
+				options += '<tr>';
+				options += '<td class="shop left">Left</td>';
+				options += '<td class="shop right">Right</td>';
+				options += '</tr>';
+				options += '</tbody>';
+				options += '</table>';
+				options += '</td>';
+				options += '<td>';
+				options += 'Return an item';
+				options += '</td>';
+				options += '</tr>';
+				options += '</tbody>';
+				options += '</table>';
+				
+				index += '<table class="shop index-table">';
+				index += '<thead>';
+				index += '<tr>';
+				index += '<td>';
+				index += '<div class="shop sort-buttons">';
+				index += '<span>Sort Buttons:&nbsp;</span>';
+				index += '</div>';
+				index += '</td>';
+				index += '<th class="shop arrange-input">';
+				index += '<select><option value="1">Alphabetical</option></select>';
+				index += '</th>';
+				index += '</tr>';
+				index += '</thead>';
+				index += '<tbody class="shop shelf">';
+				index += '<tr>';
+				index += '<td>';
+				index += 'items';
+				index += '</td>';
+				index += '</tr>';
+				index += '</tbody>';
+				index += '</table>';
+				
+			yootil.create.page(/\/\?shop\&location\=index/, this.settings.shop_name);				
+				
+			if ( this.settings.auto_append_shop === true)
+				$('#content').append(wrapper);				
+			
+			yootil.create.container(this.settings.shop_name + ' Options', options).appendTo('#the-shop');
+			yootil.create.container(this.settings.shop_name + ' Index', index).appendTo('#the-shop');
+			
+			for (var i in this.settings.plugin_settings.categories ) {
+				$('.shop.sort-button').append('<a href="javascript:void(0)" class="button" type="button">' + this.settings.plugin_settings.categories[i].category + '</a>');
+			}
+			
+			
+		}
 		
 	}
 	
