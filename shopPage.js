@@ -156,10 +156,10 @@ var shopPage = {
 				index += '</th>';
 				index += '</tr>';
 				index += '</thead>';
-				index += '<tbody class="shop shelf">';
+				index += '<tbody class="shop shelf-table">';
 				index += '<tr>';
-				index += '<td>';
-				index += 'items';
+				index += '<td colspan="2">';
+				index += '<div class="shop shelf"></div>';
 				index += '</td>';
 				index += '</tr>';
 				index += '</tbody>';
@@ -174,7 +174,7 @@ var shopPage = {
 			yootil.create.container(this.settings.shop_name + ' Index', index).appendTo('#the-shop');
 			
 			for (var i in this.settings.plugin_settings.categories ) {
-				$('.shop.sort-button').append('<a href="javascript:void(0)" class="button" type="button">' + this.settings.plugin_settings.categories[i].category + '</a>');
+				$('.shop.sort-buttons').append('<a href="javascript:void(0)" class="button" type="button">' + this.settings.plugin_settings.categories[i].category + '</a>');
 			}
 			
 			
@@ -183,3 +183,4 @@ var shopPage = {
 	}
 	
 };
+shopPage.createShop();
