@@ -67,7 +67,34 @@ var items = {
         }
         
         return itemList;        
-    })()    
+    })(),
+    
+    /*
+     * Object Constructor: categoryList
+     * 
+     * Description: Creates an object containing categories, ID's are the key
+     * 
+     * Returns: *object* - categoryList - an object containing the Categories rearanged.
+     * 
+     * Parameters: *none*
+     */
+    
+    categoryList: (function(){
+    	
+    	var settings = pb.plugin.get('gold_shop_v4').settings,
+    		categories = settings.categories;
+    		
+    	function categoryList () {
+    		
+    		this.categories = {};
+    		
+    		for ( var i in categories ) {
+    			this.categories[categories[i].id] = categories[i].category;
+    		}
+    		
+    	}
+    	
+    })()   
     
 }.register();
 
