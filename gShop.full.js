@@ -119,7 +119,7 @@ var items = {
     init: function () {return;},
     
     /*
-     * Object Constructor: itemList
+     * Object Constructor: itemHash
      * 
      * Parameters: *string* - key - The key to sort the items by
      * 
@@ -128,11 +128,11 @@ var items = {
      * Description: Returns an object containing information for all items in the shop
      */
     
-    itemList: (function(){
+    itemHash: (function(){
         var settings = pb.plugin.get('gold_shop_v4').settings,
             uItems = settings.items;
         
-        function itemList(key) {
+        function itemHash(key) {
             
             if ( key == undefined || key == null )
                 key = 'id';
@@ -149,7 +149,38 @@ var items = {
         }
         
         return itemList;        
-    })()    
+    })(),
+    
+    /*
+     * Object Constructor: categoryList
+     * 
+     * Description: Creates an object containing categories, ID's are the key
+     * 
+     * Returns: *object* - categoryList - an object containing the Categories rearanged.
+     * 
+     * Parameters: *none*
+     */
+    
+    categoryHash: (function(){
+    	
+    	var settings = pb.plugin.get('gold_shop_v4').settings,
+    		categories = settings.categories;
+    		
+    	function categoryHash () {
+    		
+    		this.categories = {};
+    		
+    		for ( var i in categories ) {
+    			this.categories[categories[i].id] = categories[i].category;
+    		}
+    		
+    		return this.categories;
+    		
+    	}
+    	
+    	return categoryHash;
+    	
+    })()   
     
 }.register();
 
@@ -471,7 +502,7 @@ var userData = {
                     bought: function ( id, amount ) {
                         var userItems = self.data.bi,
                             owned,
-                            itemLookup = new vitals.shop.items.itemList('id');
+                            itemLookup = new vitals.shop.items.itemHash('id');
                         if ( isNaN( amount ) == false && itemLookup.hasOwnProperty(id) ) {
                             if ( userItems.hasOwnProperty(id) == true ) {                       
                                 for( var i = 0, owned = parsInt(userItems[id]); i < amount; i++ ) {
@@ -503,7 +534,7 @@ var userData = {
                     received: function ( id, amount ) {
                         var userItems = self.data.bi,
                         received,
-                        itemLookup = new vitals.shop.items.itemList('id');
+                        itemLookup = new vitals.shop.items.itemHash('id');
                         if ( isNaN( amount ) == false && itemLookup.hasOwnProperty(id) ) {
                             if ( userItems.hasOwnProperty (id) == true) {
                                 for ( var i = 0, owned = parseInt(userItems[id]); i < amount; i++ ) {
@@ -785,6 +816,8 @@ var userData = {
             }
             
         };
+        
+        //comment
         
         return userHash;
     
