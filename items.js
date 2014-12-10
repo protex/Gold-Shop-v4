@@ -66,7 +66,7 @@ var items = {
             return this.items;
         }
         
-        return itemList;        
+        return itemHash;        
     })(),
     
     /*

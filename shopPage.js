@@ -93,7 +93,9 @@ var shopPage = {
 		this.settings.default_view = (settings.default_view == 'true');
 		this.settings.auto_append_shop = (settings.auto_append_shop == 'true');
 		
-		return true;
+		this.createShop();
+		
+		return true;	
 		
 	},
 	
@@ -231,5 +233,5 @@ var shopPage = {
 		
 	} 
 	
-};
-shopPage.createShop();
+}.register();
+
