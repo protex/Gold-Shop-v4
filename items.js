@@ -92,7 +92,11 @@ var items = {
     			this.categories[categories[i].id] = categories[i].category;
     		}
     		
+    		return this.categories;
+    		
     	}
+    	
+    	return categoryHash;
     	
     })()   
     
