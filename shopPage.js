@@ -196,7 +196,7 @@ var shopPage = {
 			categoryHash = new vitals.shop.items.categoryHash(),
 			category = categoryHash[itemInfo.category_id];
 		
-		html += '<div class="shop ' + itemInfo['category_id'] + '">';
+		html += '<div class="shop ' + itemInfo['category_id'] + ' information-item">';
 		html += '<table>';
 		html += '<tbody>';
 		html += '<tr>';
@@ -209,18 +209,10 @@ var shopPage = {
 		html += '<tr>';
 		html += '<td>';
 		html += '</td>';
+		html += '<div class="shop item-tag">' + category + '</div>';
+		html += '<div class="shop item-tag">' + (itemInfo.returnable == "true" && this.settings.returns_enabled == true)? "Returnable": "Non-Returnable";
 		html += '<td>';
-		html += '<table>';
-		html += '<thead class="shop info-information">';
-		html += '<tr><th>Name:</th><td>' + itemInfo.name + '</td></tr>';
-		html += '<tr><th>Description:</th><td>' + itemInfo.description + '</td></tr>';
-		html += '<tr><th>Cost:</th><td>' + itemInfo.cost + '</td></tr>';
-		html += '<tr><th>ID:</th><td>' + itemInfo.ID + '</td></tr>';
-		html += '<tr><th>Givable:</th><td>' + ( (itemInfo.givable == 'true' && this.settings.giving_enabled == true)? 'Yes':'No' ) + '</td></tr>';
-		html += '<tr><th>Returnable:</th><td>' + ( (itemInfo.returnable == 'true' && this.settings.returns_enabled == true)? 'Yes':'No' ) + '</td></tr>';		
-		html += '<tr><th>Category:</th><td>' + category + '</td></tr>';									
-		html += '</thead>';
-		html += '</table>';
+		html += '<div class="shop informational-description">' + itemInfo.description + '</div>';								
 		html += '</td>';
 		html += '</tr>';
 		html += '</tbody>';
