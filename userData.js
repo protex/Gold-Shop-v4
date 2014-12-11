@@ -316,7 +316,7 @@ var userData = {
                     bought: function ( id, amount ) {
                         var userItems = self.data.bi,
                             owned,
-                            itemLookup = new vitals.shop.items.itemList('id');
+                            itemLookup = new vitals.shop.items.itemHash('id');
                         if ( isNaN( amount ) == false && itemLookup.hasOwnProperty(id) ) {
                             if ( userItems.hasOwnProperty(id) == true ) {                       
                                 for( var i = 0, owned = parsInt(userItems[id]); i < amount; i++ ) {
@@ -348,7 +348,7 @@ var userData = {
                     received: function ( id, amount ) {
                         var userItems = self.data.bi,
                         received,
-                        itemLookup = new vitals.shop.items.itemList('id');
+                        itemLookup = new vitals.shop.items.itemHash('id');
                         if ( isNaN( amount ) == false && itemLookup.hasOwnProperty(id) ) {
                             if ( userItems.hasOwnProperty (id) == true) {
                                 for ( var i = 0, owned = parseInt(userItems[id]); i < amount; i++ ) {

@@ -49,7 +49,7 @@ var shopPage = {
 	 * Returns: *bool*
 	 */
 	
-	register: function () {vitals.shop.main.register('shopPage', this);return true;},
+	register: function () {vitals.shop.register('shopPage', this);return true;},
 	
 	/*
 	 * Function: init
@@ -82,7 +82,7 @@ var shopPage = {
 	setup: function () {
 		
 		var plugin = pb.plugin.get('gold_shop_v4'),
-			settings = plutin.settings;
+			settings = plugin.settings;
 		
 		this.settings.shop_name = (settings.shop_name != undefined && settings.shop_name != '')? settings.shop_name: 'Gold Shop';
 		this.settings.shop_welcome_message = (settings.welcome_message != undefined && settings.shop_message != '')? settings.welcome_message: 'Welcome to the shop!';
@@ -93,7 +93,9 @@ var shopPage = {
 		this.settings.default_view = (settings.default_view == 'true');
 		this.settings.auto_append_shop = (settings.auto_append_shop == 'true');
 		
-		return true;
+		this.createShop();
+		
+		return true;	
 		
 	},
 	
@@ -156,10 +158,10 @@ var shopPage = {
 				index += '</th>';
 				index += '</tr>';
 				index += '</thead>';
-				index += '<tbody class="shop shelf">';
+				index += '<tbody class="shop shelf-table">';
 				index += '<tr>';
-				index += '<td>';
-				index += 'items';
+				index += '<td colspan="2">';
+				index += '<div class="shop shelf"></div>';
 				index += '</td>';
 				index += '</tr>';
 				index += '</tbody>';
@@ -173,13 +175,63 @@ var shopPage = {
 			yootil.create.container(this.settings.shop_name + ' Options', options).appendTo('#the-shop');
 			yootil.create.container(this.settings.shop_name + ' Index', index).appendTo('#the-shop');
 			
-			for (var i in this.settings.plugin_settings.categories ) {
-				$('.shop.sort-button').append('<a href="javascript:void(0)" class="button" type="button">' + this.settings.plugin_settings.categories[i].category + '</a>');
-			}
-			
+			this.addDefaultView();
 			
 		}
 		
-	}
+		
+	},
 	
-};
+	/*
+	 * Function: createInfoItem
+	 * 
+	 * Description: Creates an item based on the informational template
+	 * 
+	 * Prameters: *string* *int* - The id of the item to create
+	 */
+	
+	createInfoItem: function (id) {
+		
+		var html = '',
+			itemHash = new vitals.shop.items.itemHash('id'),
+			itemInfo = itemHash[id],
+			categoryHash = new vitals.shop.items.categoryHash(),
+			category = categoryHash[itemInfo.category_id];
+		
+		html += '<div class="shop "' + itemInfo['category_id'] + '"">';
+		html += '<table>';
+		html += '<tbody>';
+		html += '<tr>';
+		html += '<td>';
+		html += '<div class="shop info-image">';
+		html += '<img src="' + itemInfo.image_url + '" />';
+		html += '</div>';
+		html += '</td>';
+		html += '</tr>';
+		html += '<tr>';
+		html += '<td>';
+		html += '</td>';
+		html += '<td>';
+		html += '<table>';
+		html += '<thead class="shop info-information">';
+		html += '<tr><th>Name:</th><td>' + itemInfo.name + '</td></tr>';
+		html += '<tr><th>Description:</th><td>' + itemInfo.description + '</td></tr>';
+		html += '<tr><th>Cost:</th><td>' + itemInfo.cost + '</td></tr>';
+		html += '<tr><th>ID:</th><td>' + itemInfo.ID + '</td></tr>';
+		html += '<tr><th>Givable:</th><td>' + ( (itemInfo.givable == 'true' && this.settings.giving_enabled == true)? 'Yes':'No' ) + '</td></tr>';
+		html += '<tr><th>Returnable:</th><td>' + ( (itemInfo.returnable == 'true' && this.settings.returns_enabled == true)? 'Yes':'No' ) + '</td></tr>';		
+		html += '<tr><th>Category:</th><td>' + category + '</td></tr>';									
+		html += '</thead>';
+		html += '</table>';
+		html += '</td>';
+		html += '</tr>';
+		html += '</tbody>';
+		html += '</table>';
+		html += '</div>';
+		
+		return $(html);
+		
+	} 
+	
+}.register();
+

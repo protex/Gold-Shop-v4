@@ -37,7 +37,7 @@ var items = {
     init: function () {return;},
     
     /*
-     * Object Constructor: itemList
+     * Object Constructor: itemHash
      * 
      * Parameters: *string* - key - The key to sort the items by
      * 
@@ -46,11 +46,11 @@ var items = {
      * Description: Returns an object containing information for all items in the shop
      */
     
-    itemList: (function(){
+    itemHash: (function(){
         var settings = pb.plugin.get('gold_shop_v4').settings,
             uItems = settings.items;
         
-        function itemList(key) {
+        function itemHash(key) {
             
             if ( key == undefined || key == null )
                 key = 'id';
@@ -66,8 +66,39 @@ var items = {
             return this.items;
         }
         
-        return itemList;        
-    })()    
+        return itemHash;        
+    })(),
+    
+    /*
+     * Object Constructor: categoryList
+     * 
+     * Description: Creates an object containing categories, ID's are the key
+     * 
+     * Returns: *object* - categoryList - an object containing the Categories rearanged.
+     * 
+     * Parameters: *none*
+     */
+    
+    categoryHash: (function(){
+    	
+    	var settings = pb.plugin.get('gold_shop_v4').settings,
+    		categories = settings.categories;
+    		
+    	function categoryHash () {
+    		
+    		this.categories = {};
+    		
+    		for ( var i in categories ) {
+    			this.categories[categories[i].id] = categories[i].category;
+    		}
+    		
+    		return this.categories;
+    		
+    	}
+    	
+    	return categoryHash;
+    	
+    })()   
     
 }.register();
 
