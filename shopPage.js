@@ -49,7 +49,7 @@ var shopPage = {
 	 * Returns: *bool*
 	 */
 	
-	register: function () {vitals.shop.main.register('shopPage', this);return true;},
+	register: function () {vitals.shop.register('shopPage', this);return true;},
 	
 	/*
 	 * Function: init
