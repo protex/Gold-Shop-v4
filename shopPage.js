@@ -173,9 +173,7 @@ var shopPage = {
 				$('#content').append(wrapper);				
 			
 			yootil.create.container(this.settings.shop_name + ' Options', options).appendTo('#the-shop');
-			yootil.create.container(this.settings.shop_name + ' Index', index).appendTo('#the-shop');
-			
-			this.addDefaultView();
+			yootil.create.container(this.settings.shop_name + ' Index', index).appendTo('#the-shop');		
 			
 		}
 		
