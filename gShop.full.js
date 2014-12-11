@@ -1154,7 +1154,7 @@ var shopPage = {
 			categoryHash = new vitals.shop.items.categoryHash(),
 			category = categoryHash[itemInfo.category_id];
 		
-		html += '<div class="shop "' + itemInfo['category_id'] + '"">';
+		html += '<div class="shop ' + itemInfo['category_id'] + '">';
 		html += '<table>';
 		html += '<tbody>';
 		html += '<tr>';
