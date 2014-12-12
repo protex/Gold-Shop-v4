@@ -1164,7 +1164,7 @@ var shopPage = {
 							html += '</div>';
 						html += '</td>';
 						html += '<td>';
-							html += '<div class="shop informational-description">' + itemInfo.description + '</div>';
+							html += '<div class="description">' + itemInfo.description + '</div>';
 						html += '</td>';						
 					html += '</tr>';
 					html += '<tr>';
