@@ -200,8 +200,8 @@ var shopPage = {
 			html += '<table>';
 				html += '<tbody>';
 					html += '<tr>';
-						html += '<td>';
-							html += '<div class="shop info-image">';
+						html += '<td class="shop info-image">';
+							html += '<div>';
 								html += '<img src="' + itemInfo.image_url + '" />';
 							html += '</div>';
 						html += '</td>';
