@@ -214,6 +214,7 @@ var shopPage = {
 							html += '<div class="shop item-tag">' + category + '</div>';
 							html += (itemInfo.returnable == "true" && this.settings.returns_enabled == true)? '<div class="shop item-tag">Returnable</div>': '';
 							html += (itemInfo.givable == "true" && this.settings.giving_enabled == true)? '<div class="shop item-tag">Givable</div>': '';	
+							// forcing an update
 						html += '</td>';
 					html += '</tr>';
 				html += '</tbody>';
