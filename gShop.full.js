@@ -1023,6 +1023,8 @@ var shopPage = {
 		
 		this.setup();
 		
+		this.addDefaultView();
+		
 		return true;
 		
 	},
@@ -1048,7 +1050,7 @@ var shopPage = {
 		this.settings.shop_image = this.settings.shop_image;
 		this.settings.returns_enabled = (settings.returns == 'true' )? true: false;
 		this.settings.giving_enabled = (settings.giving == 'true' )? true: false;
-		this.settings.default_view = (settings.default_view == 'true');
+		this.settings.default_view = (settings.default_view == 'informational')? 'informational': 'squares';
 		this.settings.auto_append_shop = (settings.auto_append_shop == 'true');
 		
 		this.createShop();
@@ -1181,7 +1183,55 @@ var shopPage = {
 		
 		return $(html);
 		
-	} 
+	},
+	
+	/*
+	 * Function: clearCurrView
+	 * 
+	 * Description: Clears all items from the shop shelf
+	 * 
+	 * Parameters: *none*
+	 */
+	
+	clearCurrView: function () {
+		
+		$('.shop.shelf').html('');
+		
+	},
+	
+	/*
+	 * Function: createInfoView
+	 * 
+	 * Description: Creates all items in the informational view
+	 * 
+	 * Parameters: *none*
+	 */
+	
+	createInfoView: function () {
+		
+		var items = new vitals.shop.items.itemHash('id');
+		
+		for(var i in items) {
+			this.createInfoItem(item[i].id).appendTo('.shop.shelf');
+		}
+		
+	},
+	
+	/* 
+	 * Function: addDefaultView
+	 * 
+	 * Description: Adds the default view of the shop
+	 * 
+	 * Parameters: *none*
+	 */
+	
+	addDefaultView: function () {
+		
+		if(this.settings.default_view == 'informational') {
+			this.createInfoView();
+		}
+		
+	}
 	
 }.register();
 
