@@ -1212,7 +1212,7 @@ var shopPage = {
 		var items = new vitals.shop.items.itemHash('id');
 		
 		for(var i in items) {
-			this.createInfoItem(item[i].id).appendTo('.shop.shelf');
+			this.createInfoItem(items[i].id).appendTo('.shop.shelf');
 		}
 		
 	},
