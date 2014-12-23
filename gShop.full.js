@@ -1172,7 +1172,7 @@ var shopPage = {
 			categoryHash = new vitals.shop.items.categoryHash(),
 			category = categoryHash[itemInfo.category_id];
 		
-		html += '<div class="shop ' + itemInfo['category_id'] + ' information-item">';
+		html += '<div class="shop ' + itemInfo['category_id'] + ' information-item shop-item">';
 			html += '<table>';
 				html += '<tbody>';
 					html += '<tr>';
@@ -1261,9 +1261,25 @@ var shopPage = {
 		var categories = new vitals.shop.items.categoryHash();
 		
 		var html = '';
-			html += '<a href="javascript:void(0)" class="button">' + categories[id].category + '</a>';
+			html += '<a href="javascript:void(0)" class="button" onclick="vitals.shop.shopPage.filterItems(\"' + id + '\")">' + categories[id].category + '</a>';
 			
 		return $(html);
+		
+	},
+	
+	/*
+	 * Function: filterItems
+	 * 
+	 * Description: Hides all items that don't match the filter
+	 * 
+	 * Parameters: *string* - id - The id of the category to filter for
+	 */
+	
+	filterItems: function (id) {
+		
+		$('.shop-item').hide();
+		
+		$('.shop-item.' + id).show();
 		
 	}
 	
