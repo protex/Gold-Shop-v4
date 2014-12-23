@@ -94,6 +94,8 @@ var items = {
     		
     		return this.categories;
     		
+    		//update force
+    		
     	}
     	
     	return categoryHash;
