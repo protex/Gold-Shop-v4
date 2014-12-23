@@ -1170,7 +1170,7 @@ var shopPage = {
 			itemHash = new vitals.shop.items.itemHash('id'),
 			itemInfo = itemHash[id],
 			categoryHash = new vitals.shop.items.categoryHash(),
-			category = categoryHash[itemInfo.category_id];
+			category = categoryHash[itemInfo.category_id].category;
 		
 		html += '<div class="shop ' + itemInfo['category_id'] + ' information-item shop-item">';
 			html += '<table>';
@@ -1261,7 +1261,7 @@ var shopPage = {
 		var categories = new vitals.shop.items.categoryHash();
 		
 		var html = '';
-			html += '<a href="javascript:void(0)" class="button" onclick="vitals.shop.shopPage.filterItems(\"' + id + '\")">' + categories[id].category + '</a>';
+			html += '<a href="javascript:void(0)" class="button" onclick="vitals.shop.shopPage.filterItems(\'' + id + '\')">' + categories[id].category + '</a>';
 			
 		return $(html);
 		
