@@ -89,7 +89,7 @@ var items = {
     		this.categories = new Object();
     		
     		for ( var i in categories ) {
-    			this.categories[categories[i].id] = {"id": categories[i].id, "category": categories[categories[i].id].category};
+    			this.categories[categories[i].id] = {"id": categories[i].id, "category": categories[i].category};
     		}
     		
     		return this.categories;
