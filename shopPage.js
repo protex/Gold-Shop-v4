@@ -65,8 +65,6 @@ var shopPage = {
 		
 		this.setup();
 		
-		this.addDefaultView();
-		
 		return true;
 		
 	},
@@ -115,6 +113,8 @@ var shopPage = {
 		
 		if ( location.href.match(/\/\?shop\&location\=index/) ) {
 			
+			var categories = new vitals.shop.items.categoryHash();
+			
 			var wrapper = '',
 				welcome = '',
 				options = '',
@@ -122,6 +122,7 @@ var shopPage = {
 				wrapper += '<div id="the-shop"></div>';
 				welcome = this.settings.shop_name;
 				
+				// Options table, contains view switches and return button
 				options += '<table class="shop options-table">';
 				options += '<tbody>';
 				options += '<tr>';
@@ -147,12 +148,13 @@ var shopPage = {
 				options += '</tbody>';
 				options += '</table>';
 				
+				// Index area, contains filter buttons, arrangment dropdown, and the shelf
 				index += '<table class="shop index-table">';
 				index += '<thead>';
 				index += '<tr>';
 				index += '<td>';
-				index += '<div class="shop sort-buttons">';
-				index += '<span>Sort Buttons:&nbsp;</span>';
+				index += '<div class="shop filter-buttons">';
+				index += '<span>Filter:</span>';
 				index += '</div>';
 				index += '</td>';
 				index += '<th class="shop arrange-input">';
@@ -174,8 +176,20 @@ var shopPage = {
 			if ( this.settings.auto_append_shop === true)
 				$('#content').append(wrapper);				
 			
-			yootil.create.container(this.settings.shop_name + ' Options', options).appendTo('#the-shop');
-			yootil.create.container(this.settings.shop_name + ' Index', index).appendTo('#the-shop');		
+			// Add the options and index tables
+			yootil.create.container(this.settings.shop_name + ' Options ', options).appendTo('#the-shop');
+			yootil.create.container(this.settings.shop_name + ' Index', index).appendTo('#the-shop');	
+			
+			// Add items with default view
+			this.addDefaultView();	
+			
+			// Add filter buttons
+			
+			for(var i in categories) {
+				
+				this.createFilterButton(categories[i].id).appendTo('.shop.filter-buttons');
+				
+			}	
 			
 		}
 		
@@ -271,6 +285,25 @@ var shopPage = {
 		if(this.settings.default_view == 'informational') {
 			this.createInfoView();
 		}
+		
+	},
+	
+	/* 
+	 * Function: createFilterButton
+	 * 
+	 * Description: Creates a filter button based on category id
+	 * 
+	 * Parameters: *string* - id - The id of the category
+	 */
+	
+	createFilterButton: function (id) {
+		
+		var categories = new vitals.shop.items.categoryHash();
+		
+		var html = '';
+			html += '<a href="javascript:void(0)" class="button">' + categories[id].category + '</a>';
+			
+		return $(html);
 		
 	}
 	
