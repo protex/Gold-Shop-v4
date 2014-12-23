@@ -168,10 +168,10 @@ var items = {
     		
     	function categoryHash () {
     		
-    		this.categories = {};
+    		this.categories = new Object();
     		
     		for ( var i in categories ) {
-    			this.categories[categories[i].id] = categories[i].category;
+    			this.categories[categories[i].id] = {"id": categories[i].id, "category": categories[categires[i].id].category};
     		}
     		
     		return this.categories;
