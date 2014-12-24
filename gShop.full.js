@@ -137,7 +137,7 @@ var items = {
             if ( key == undefined || key == null )
                 key = 'id';
             
-            this.items = {};
+            this.items = new Object();
             
             for ( var i in uItems ) {
                 if (uItems[i].hasOwnProperty(key)){
@@ -264,7 +264,7 @@ var userData = {
         var plugin = pb.plugin.get('gold_shop_v4'),
             sKey = proboards.plugin.keys.data['gold_shop_super'],
             usersOnPage = Object.keys(proboards.plugin.keys.permissions['gold_shop_super']),          
-            self = {};
+            self = new Object();
             
             if ( $.inArray( user.toString(), usersOnPage ) > -1 ) {
                 
@@ -310,11 +310,18 @@ var userData = {
                      * Pending Changes
                      */
                     
-                    pc: []
+                    pc: [],
+                    
+                    /*
+                     * Last Update
+                     */
+                    
+                    la: ''
                     
                 };            
                 
                 self.hasBeenChanged = false;
+              
                 
                 /*
                  * Push all pending changes into main object
@@ -322,20 +329,53 @@ var userData = {
                 
                 if ( typeof data != "undefined" ) {
 	                if ( data.length > 1 ) {
-	                	for (var i in data ) {
-	                		if ( i == 0 ) 
-	                			continue;
-	                		else {
-	                			self.data['pc'].push(data[i]);
-	                		}	                		
-	                	}
-	                	self.hasBeenChanged = true;
+	                	pb.window.dialog('new_changes', {
+	                		title: "New Changes",
+	                		html: "There are new changes to your shop account, would you like to view them?",
+	                		buttons: [
+	                			{
+	                				text: 'Yes',
+	                				click: pushChanges()
+	                			},
+	                			{
+	                				text: 'No',
+	                				click: pushChanges()
+	                			}
+	                		],
+	                		beforeClose: pushChanges()
+	                	});
+	                	function pushChanges() {
+							var changes = pb.plugin.key('gold_shop_super').pop({num_items: (data.length - 1), obj_id: self.user });           	
+		                	for (var i in changes ) {
+		                		self.data['pc'].push(changes[i]);                		
+		                	}
+		                	self.sync();
+		                }
 	                } 
-                }               
+                }
                 
-                self.update = function () {
-                      pb.data.key('gold_shop_super').set({item_id: self.user, value: [self.data] });
-                };
+                /*
+                 * Function: sync
+                 * 
+                 * Description: shifts old data and unshifts the new data to the server
+                 * 
+                 * Parameters: *none*
+                 */              
+                 
+                 sync = function () {
+                 	
+                 	if (pb.plugin.key('gold_shop_super').get() == "" || pb.plugin.key('gold_shop_super').get() == undefined ) {
+                 		pb.plugin.key('gold_shop_super').set({value: []});
+                 		pb.plugin.key('gold_shop_super').push({value: self.data});                 		
+                 	} else {
+                 	
+	                 	pb.plugin.key('gold_shop_super').shift();
+	                 	
+	                 	pb.plugin.key('gold_shop_super').ushift({value: self.data});
+                 	
+                 	}
+                 	
+                 };
                 
                 /*
                  * Property: User
@@ -551,6 +591,7 @@ var userData = {
                             }
                             self.hasBeenChanged = true;
                             return true;
+                            self.sync();
                         } else {
                             return false;
                         }
@@ -818,8 +859,6 @@ var userData = {
             }
             
         };
-        
-        //comment
         
         return userHash;
     
@@ -1179,6 +1218,9 @@ var shopPage = {
 						html += '<td class="shop info-image">';
 							html += '<div>';
 								html += '<img src="' + itemInfo.image_url + '" />';
+							html += '</div>';
+							html += '<div>';
+								html += '<a href="javascript:void(0)" class="button" onclick="">Buy</a>';
 							html += '</div>';
 						html += '</td>';
 						html += '<td>';

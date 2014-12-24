@@ -55,7 +55,7 @@ var items = {
             if ( key == undefined || key == null )
                 key = 'id';
             
-            this.items = {};
+            this.items = new Object();
             
             for ( var i in uItems ) {
                 if (uItems[i].hasOwnProperty(key)){

@@ -220,6 +220,9 @@ var shopPage = {
 							html += '<div>';
 								html += '<img src="' + itemInfo.image_url + '" />';
 							html += '</div>';
+							html += '<div>';
+								html += '<a href="javascript:void(0)" class="button" onclick="">Buy</a>';
+							html += '</div>';
 						html += '</td>';
 						html += '<td>';
 							html += '<div class="description">' + itemInfo.description + '</div>';
